@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>VocabMaster Pro — PWA 2.4</title>
+<meta name="theme-color" content="#0c1220">
+<meta name="description" content="VocabMaster 單字卡、測驗、AI 英文練習和學習進度管理。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VocabMaster">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+<style>
+:root {color-scheme: dark; --bg:#0c1220;--panel:#151f32;--panel2:#1c2940;--line:#34425a;--muted:#a0adc2;--text:#edf3fe;--accent:#7767e9;--accent2:#a78bfa;--green:#34d399;--red:#fb7185;--amber:#fbbf24;}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 45% 0%,#1d2344 0%,var(--bg) 51%);min-height:100vh;color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;font-size:15px}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid transparent;color:inherit}button:disabled{opacity:.48;cursor:not-allowed}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #a5a0ff;outline-offset:2px}a{color:#c4b5fd}header{background:#111827e6;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}.top{max-width:1170px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 26px}.brand{display:flex;align-items:center;gap:12px}.brandlogo{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,#596bd8,#9b57db);font-size:24px;box-shadow:0 8px 22px #6656ed30}.brand strong{font-size:20px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:12px;margin-top:4px}.tabs{display:flex;gap:5px;flex-wrap:wrap;background:#1c2739;border:1px solid var(--line);padding:5px;border-radius:13px}.tabs button{padding:10px 18px;border-radius:9px;font-size:13px;background:none;color:var(--muted)}.tabs button.active{background:#5747c9;color:white;box-shadow:0 4px 12px #0003}.container{max-width:1170px;margin:0 auto;padding:26px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}.filters{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.chip,.btn{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:13px;white-space:nowrap}.chip.active{background:#3c375f;border-color:#9585ff;color:#c9bfff}.btn:hover,.chip:hover{border-color:#8d83e8}.btn.primary{background:#5b4cdb;border-color:#766af4}.btn.primary:hover{background:#6d5eec}.btn.green{background:#134d43;border-color:#277c63;color:#a5f3d0}.btn.purple{background:#382352;border-color:#65418d;color:#e0c2ff}.btn.warn{background:#4c2732;border-color:#9b4259;color:#fecdd3}.btn.small{padding:7px 10px;font-size:12px}.actions{display:flex;gap:7px;flex-wrap:wrap}.search{background:#111b2d;border:1px solid var(--line);padding:10px 12px;border-radius:10px;color:var(--text);width:235px;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:23px}.mainpanel,.sidebar{min-width:0}.sidecard,.panel{background:#152036d9;border:1px solid var(--line);border-radius:20px;padding:21px;box-shadow:0 12px 38px #0002}.sidecard{margin-bottom:16px}.sectiontitle{font-size:15px;font-weight:750;margin:0 0 15px}.muted{color:var(--muted)}.smalltext{font-size:12px}.space{height:12px}.center{text-align:center}.flex{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.vcardwrap{perspective:1200px;height:430px;max-width:590px;margin:6px auto 20px;cursor:pointer}.vcard{height:100%;position:relative;transform-style:preserve-3d;transition:transform .48s ease}.vcard.flip{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;border:1px solid #434e72;padding:26px;background:linear-gradient(145deg,#22304b,#172039 76%);box-shadow:0 17px 52px #0005;display:flex;flex-direction:column;overflow-y:auto}.face.back{transform:rotateY(180deg);background:linear-gradient(140deg,#1b2945,#222144)}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:8px}.pill{border-radius:999px;padding:6px 10px;border:1px solid #6459a9;background:#43398240;color:#c7bfff;font-weight:bold;font-size:12px}.iconbtn{background:#293653;border:1px solid #435271;border-radius:10px;padding:8px 11px;font-size:15px}.iconbtn:hover{background:#354666}.iconbtn.active.green{color:var(--green);border-color:#287860}.iconbtn.active.yellow{color:var(--amber);border-color:#97772e}.wordmid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}.headword{font-weight:800;font-size:clamp(32px,4.5vw,56px);line-height:1.15;overflow-wrap:anywhere}.ipa{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#bac6df}.hint{color:#9caac3;font-size:12px;text-align:center}.backtitle{font-size:23px;font-weight:750;overflow-wrap:anywhere}.detailgroup{margin:9px 0;padding:12px;border:1px solid #394968;border-radius:11px;background:#10192a77}.detailgroup label{display:block;text-transform:uppercase;color:#b9adff;font-size:11px;font-weight:800;margin-bottom:5px}.detailgroup p{margin:0;font-size:14px;line-height:1.6}.detailgroup.translation{background:#0d1525a3}.cardcontrols{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.status{font-size:13px;color:#aebbd1;text-align:center;margin-bottom:12px}.empty{padding:75px 15px;text-align:center;color:var(--muted);line-height:1.9}.quizword{font-size:33px;font-weight:780;text-align:center;margin:16px 0 26px}.quizopts{display:grid;grid-template-columns:1fr 1fr;gap:12px}.option{min-height:77px;border:1px solid #45536d;background:#111b2b;color:#e8edfa;border-radius:13px;text-align:left;padding:16px;font-size:15px;line-height:1.45;white-space:normal;overflow-wrap:anywhere}.option:hover:not(:disabled){background:#293957}.option.correct{border-color:#40b890;background:#154936;color:#a3f5d4;opacity:1}.option.incorrect{border-color:#e16c84;background:#582735;color:#ffc1cb;opacity:1}.quizmeta{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#bfcae0;font-size:13px}.feedback{padding:13px;border-radius:12px;background:#21344a;border:1px solid #455e78;margin-top:15px;line-height:1.6}.field{margin-bottom:16px}.field label{display:block;color:#c4cee2;font-size:12px;font-weight:700;margin-bottom:8px}input[type=text],input[type=password],input[type=search],textarea,select{width:100%;background:#0c1525;border:1px solid #3f506e;color:#f4f6fd;border-radius:10px;padding:11px 12px;min-height:42px}textarea{resize:vertical;min-height:100px}select{color-scheme:dark}.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#1c2940;border:1px solid #394865;border-radius:16px;padding:19px;text-align:center}.stat strong{font-size:29px;display:block;margin:8px 0}.progress{height:14px;background:#0d1728;border:1px solid #3b4b65;border-radius:99px;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,#8277e8,#41cbaa);border-radius:99px;transition:width .3s}.modalback{position:fixed;inset:0;background:#030712c9;z-index:30;display:flex;justify-content:center;align-items:center;padding:18px;backdrop-filter:blur(4px)}.modal{width:min(650px,100%);max-height:92vh;overflow:auto;background:#18243a;border:1px solid #475672;border-radius:21px;padding:26px;box-shadow:0 30px 100px #0009}.modalhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.modalhead h2{font-size:20px;margin:0}.notice{font-size:13px;background:#222d45;border:1px solid #475774;border-radius:11px;padding:12px;line-height:1.75;color:#d3deef}.notice.warning{background:#43372566;border-color:#77643b;color:#f6dfaa}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:50;background:#354663;border:1px solid #8795b4;border-radius:12px;padding:12px 20px;max-width:min(92vw,640px);box-shadow:0 18px 65px #0009;font-size:13px;line-height:1.5}.toast.error{background:#58313a;border-color:#f27a91}.keybadge{font-size:12px;color:#abf0d9}.sidefact{padding:8px 0;display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #2f3c51;font-size:13px}.sidefact:last-child{border:none}footer{text-align:center;color:#7889a2;font-size:12px;margin:22px auto;padding:10px}.inline{display:inline}.kbd{font-family:monospace;background:#222e46;border:1px solid #465473;border-radius:5px;padding:3px 5px;font-size:11px}.footactions{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}.fine{font-size:11px;color:#9dabc3;line-height:1.65}.break{overflow-wrap:anywhere}.hidden{display:none!important}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:15px}.sidecard{margin:0}.container{padding:18px}.top{padding:13px 18px}}@media(max-width:640px){.top{flex-direction:column;align-items:stretch}.tabs{justify-content:space-around}.tabs button{padding:9px}.toolbar{align-items:stretch}.search{width:100%}.quizopts,.row2,.row3,.statgrid,.sidebar{grid-template-columns:1fr}.vcardwrap{height:470px}.face{padding:19px}.headword{font-size:36px}.actions{width:100%}.actions .btn{flex:1}.modal{padding:18px}}
+
+/* VocabMaster PWA: iPhone-sized screens, home indicator, touch targets */
+html { -webkit-text-size-adjust: 100%; }
+body { overscroll-behavior-y: none; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.vcardwrap, .vcard, .face { -webkit-transform-style: preserve-3d; }
+.face { -webkit-backface-visibility: hidden; }
+@media (max-width: 640px) {
+  /* A backdrop-filter ancestor traps position:fixed descendants. */
+  header { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  body { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .top { padding: calc(9px + env(safe-area-inset-top)) 14px 11px; gap: 8px; }
+  .brand { gap: 10px; }
+  .brandlogo { width: 37px; height: 37px; border-radius: 11px; font-size: 20px; flex: none; }
+  .brand strong { font-size: 18px; }
+  .sub { font-size: 11px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; padding: 7px 8px calc(9px + env(safe-area-inset-bottom));
+          gap: 3px; border-radius: 17px 17px 0 0; border: 1px solid var(--line); border-bottom: 0;
+          background: #141e31f7; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          box-shadow: 0 -8px 25px #0005; z-index: 25; flex-wrap: nowrap; }
+  .tabs button { flex: 1; min-width: 0; padding: 12px 3px; font-size: 12px; white-space: nowrap; }
+  .container { padding: 13px 12px 18px; }
+  .toolbar { gap: 9px; margin-bottom: 12px; }
+  .filters { overflow-x: auto; flex-wrap: nowrap; width: 100%; padding: 3px 1px 8px;
+             scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .filters::-webkit-scrollbar { display: none; }
+  .chip { flex: none; }
+  .toolbar .actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .actions .btn { white-space: normal; min-height: 42px; font-size: 12px; padding: 9px 7px; }
+  .vcardwrap { height: min(55dvh, 485px); min-height: 340px; max-width: 100%; margin-bottom: 15px; }
+  .face { padding: 15px; border-radius: 19px; }
+  .headword { font-size: clamp(30px, 9vw, 45px); }
+  .cardcontrols { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .cardcontrols .btn { min-height: 44px; white-space: normal; padding: 10px 8px; }
+  .sidecard, .panel { padding: 16px; border-radius: 16px; }
+  .sidebar { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .statgrid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
+  .stat { padding: 12px 4px; border-radius: 12px; font-size: 12px; }
+  .stat strong { font-size: 23px; }
+  .quizopts { grid-template-columns: 1fr; gap: 9px; }
+  .option { min-height: 58px; padding: 12px; font-size: 14px; }
+  .quizword { margin: 12px 0 18px; }
+  .modalback { align-items: flex-end; padding: 0; }
+  .modal { max-height: calc(92dvh - env(safe-area-inset-top)); width: 100%; border-radius: 22px 22px 0 0;
+           padding: 18px 16px calc(20px + env(safe-area-inset-bottom)); }
+  input[type=text], input[type=password], input[type=search], textarea, select { font-size: 16px; }
+  .toast { bottom: calc(83px + env(safe-area-inset-bottom)); }
+  footer { padding-bottom: 12px; }
+}
+@media (max-width: 360px) {
+  .tabs button { font-size: 11px; }
+  .vcardwrap { min-height: 310px; }
+  .status { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+/*
+  PWA 安全設計：絕不將 Gemini API Key 寫進此檔案或 GitHub Repository。
+  需要 AI 功能時，請到「AI 設定」臨時輸入；Key 僅保留在目前頁面的記憶體。
+  公開部署時，若要長期安全使用 AI，應改接帶有驗證的後端代理。
+*/
+const INITIAL_VOCABULARY = [
+      // B1 Levels
+      { id: 'b1-1', word: 'Accomplish', ipa: '/əˈkʌm.plɪʃ/', pos: 'verb', level: 'B1', meaning: '完成；實現', enDefinition: 'To achieve or complete something successfully.', forms: 'accomplishes | accomplished | accomplishing', usagePattern: 'accomplish + goal / mission', example: 'She accomplished all her goals for the year.', exampleTranslation: '她實現了今年的所有目標。', quizOptions: ['完成；實現', '放棄；拋棄', '延期；推遲', '批評；指責'], quizAnswer: 0 },
+      { id: 'b1-2', word: 'Bargain', ipa: '/ˈbɑː.ɡɪn/', pos: 'noun', level: 'B1', meaning: '便宜貨；協議', enDefinition: 'Something bought for less than the usual price; an agreement.', forms: 'bargains (pl.)', usagePattern: 'strike a bargain / a real bargain', example: 'This shirt was a real bargain at half price.', exampleTranslation: '這件襯衫打半價真的非常劃算。', quizOptions: ['昂貴物品', '便宜貨；協議', '品質保證', '廣告宣傳'], quizAnswer: 1 },
+      { id: 'b1-3', word: 'Conscious', ipa: '/ˈkɒn.ʃəs/', pos: 'adjective', level: 'B1', meaning: '意識到的；有知覺的', enDefinition: 'Aware of and responding to one\'s surroundings.', forms: 'consciously (adv.) | consciousness (n.)', usagePattern: 'be conscious of + N', example: 'He was conscious of the risks involved.', exampleTranslation: '他意識到了其中包含的風險。', quizOptions: ['無意的', '困惑的', '意識到的；有知覺的', '憤怒的'], quizAnswer: 2 },
+      { id: 'b1-4', word: 'Determine', ipa: '/dɪˈtɜː.mɪn/', pos: 'verb', level: 'B1', meaning: '決定；確定', enDefinition: 'To cause something to occur in a particular way.', forms: 'determines | determined | determining', usagePattern: 'determine to do sth', example: 'Your attitude determines your success.', exampleTranslation: '你的態度決定你的成功。', quizOptions: ['延後', '決定；確定', '懷疑', '忽略'], quizAnswer: 1 },
+      { id: 'b1-5', word: 'Efficient', ipa: '/ɪˈfɪʃ.ənt/', pos: 'adjective', level: 'B1', meaning: '有效率的', enDefinition: 'Achieving maximum productivity with minimum wasted effort.', forms: 'efficiently (adv.) | efficiency (n.)', usagePattern: 'efficient way / highly efficient', example: 'We need an efficient way to process orders.', exampleTranslation: '我們需要一種有效率的方式來處理訂單。', quizOptions: ['緩慢的', '有效率的', '複雜的', '危險的'], quizAnswer: 1 },
+
+      // B2 Levels
+      { id: 'b2-1', word: 'Ambiguous', ipa: '/æmˈbɪɡ.ju.əs/', pos: 'adjective', level: 'B2', meaning: '模稜兩可的', enDefinition: 'Open to more than one interpretation.', forms: 'ambiguously (adv.) | ambiguity (n.)', usagePattern: 'ambiguous response / statement', example: 'His reply was ambiguous and left us confused.', exampleTranslation: '他的回答模稜兩可，讓我們感到困惑。', quizOptions: ['清晰明瞭的', '模稜兩可的', '積極主動的', '極其危險的'], quizAnswer: 1 },
+      { id: 'b2-2', word: 'Collaborate', ipa: '/kəˈlæb.ə.reɪt/', pos: 'verb', level: 'B2', meaning: '合作；協作', enDefinition: 'To work jointly with others on an activity.', forms: 'collaborates | collaborated | collaborating', usagePattern: 'collaborate with sb / on a project', example: 'Researchers are collaborating to find a cure.', exampleTranslation: '研究人員正在合作尋找治療方法。', quizOptions: ['競爭；爭奪', '合作；協作', '獨立進行', '反對；抗議'], quizAnswer: 1 },
+      { id: 'b2-3', word: 'Deteriorate', ipa: '/dɪˈtɪə.ri.ə.reɪt/', pos: 'verb', level: 'B2', meaning: '惡化；變壞', enDefinition: 'To become progressively worse.', forms: 'deteriorates | deteriorated | deteriorating', usagePattern: 'deteriorate into / health deteriorates', example: 'The weather condition began to deteriorate rapidly.', exampleTranslation: '天氣狀況開始迅速惡化。', quizOptions: ['好轉；改善', '穩定下來', '惡化；變壞', '消失不見'], quizAnswer: 2 },
+      { id: 'b2-4', word: 'Substantial', ipa: '/səbˈstæn.ʃəl/', pos: 'adjective', level: 'B2', meaning: '大量的；實質的', enDefinition: 'Of considerable importance, size, or worth.', forms: 'substantially (adv.)', usagePattern: 'substantial amount / increase', example: 'The company made a substantial profit this quarter.', exampleTranslation: '公司本季度獲得了可觀的利潤。', quizOptions: ['微小的', '大量的；實質的', '臨時的', '想像的'], quizAnswer: 1 },
+
+      // C1 Levels
+      { id: 'c1-1', word: 'Exacerbate', ipa: '/ɪɡˈzæs.ə.beɪt/', pos: 'verb', level: 'C1', meaning: '使加劇；使惡化', enDefinition: 'To make a problem or negative feeling worse.', forms: 'exacerbates | exacerbated | exacerbating', usagePattern: 'exacerbate the problem / tension', example: 'His comments only served to exacerbate the tension.', exampleTranslation: '他的言論只會加劇緊張局勢。', quizOptions: ['緩和；減輕', '使加劇；使惡化', '解決；處理', '忽略；忽視'], quizAnswer: 1 },
+      { id: 'c1-2', word: 'Meticulous', ipa: '/məˈtɪk.jə.ləs/', pos: 'adjective', level: 'C1', meaning: '嚴謹的；一絲不苟的', enDefinition: 'Showing great attention to detail; very careful.', forms: 'meticulously (adv.) | meticulousness (n.)', usagePattern: 'meticulous planning / detail', example: 'He gave meticulous attention to detail in his report.', exampleTranslation: '他在報告中對細節非常嚴謹。', quizOptions: ['粗心大意的', '嚴謹的；一絲不苟的', '隨意的', '急躁的'], quizAnswer: 1 },
+      { id: 'c1-3', word: 'Pragmatic', ipa: '/præɡˈmæt.ɪk/', pos: 'adjective', level: 'C1', meaning: '務實的；實用主義的', enDefinition: 'Dealing with things sensibly based on practical considerations.', forms: 'pragmatically (adv.) | pragmatism (n.)', usagePattern: 'pragmatic approach / solution', example: 'We need a pragmatic approach to solving this issue.', exampleTranslation: '我們需要一種務實的方法來解決這個問題。', quizOptions: ['空想的', '情緒化的', '務實的；實用主義的', '傳統守舊的'], quizAnswer: 2 },
+      { id: 'c1-4', word: 'Ubiquitous', ipa: '/juːˈbɪk.wɪ.təs/', pos: 'adjective', level: 'C1', meaning: '無所不在的', enDefinition: 'Present, appearing, or found everywhere.', forms: 'ubiquity (n.) | ubiquitously (adv.)', usagePattern: 'become ubiquitous', example: 'Smartphones have become ubiquitous in modern society.', exampleTranslation: '智慧型手機在現代社會已變得無所不在。', quizOptions: ['罕見的', '無所不在的', '過時的', '昂貴的'], quizAnswer: 1 }
+    ];
+const STORE = 'vocabmaster_desktop_state_v2';
+const $ = (q, root=document) => root.querySelector(q);
+const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeText = v => String(v ?? '').trim();
+const uid = () => 'vm-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);
+const shuffle = values => {const a=[...values];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const readJSON = (key, def) => {try {const text=localStorage.getItem(key);return text===null?def:JSON.parse(text);}catch{return def;}};
+const DEFAULT_FORM = () => ({word:'',ipa:'',pos:'noun',level:'B1',meaning:'',enDefinition:'',forms:'',usagePattern:'',example:'',exampleTranslation:''});
+function normalizeWord(row){
+ if(!row||typeof row!=='object')return null;
+ const word=safeText(row.word), meaning=safeText(row.meaning);
+ if(!word||!meaning)return null;
+ return {...DEFAULT_FORM(),id:safeText(row.id)||uid(),word:word.slice(0,130),ipa:safeText(row.ipa).slice(0,180),pos:safeText(row.pos||'noun').slice(0,50),level:['B1','B2','C1'].includes(row.level)?row.level:'B1',meaning:meaning.slice(0,500),enDefinition:safeText(row.enDefinition).slice(0,1500),forms:safeText(row.forms).slice(0,750),usagePattern:safeText(row.usagePattern).slice(0,750),example:safeText(row.example).slice(0,1800),exampleTranslation:safeText(row.exampleTranslation).slice(0,1800)};
+}
+function sanitizeWords(list){
+ if(!Array.isArray(list))throw Error('匯入的單字資料必須是陣列。');
+ const ids=new Set(), keys=new Set(), out=[];
+ for(const raw of list){const w=normalizeWord(raw);if(!w)continue;const key=w.word.toLocaleLowerCase('en-US');if(keys.has(key))continue;keys.add(key);if(ids.has(w.id))w.id=uid();ids.add(w.id);out.push(w);}
+ return out;
+}
+function loadData(){
+ const data=readJSON(STORE,null);
+ if(data && Array.isArray(data.words)){
+  return {words:sanitizeWords(data.words),learnedIds:Array.isArray(data.learnedIds)?data.learnedIds:[],bookmarkedIds:Array.isArray(data.bookmarkedIds)?data.bookmarkedIds:[],wrongIds:Array.isArray(data.wrongIds)?data.wrongIds:[],quizAttempts:Number(data.quizAttempts)||0,quizCorrect:Number(data.quizCorrect)||0};
+ }
+ const legacy=readJSON('vocab_words',null);
+ const words=Array.isArray(legacy)?sanitizeWords(legacy):sanitizeWords(INITIAL_VOCABULARY);
+ return {words,learnedIds:readJSON('vocab_learned',[]),bookmarkedIds:readJSON('vocab_bookmarked',[]),wrongIds:[],quizAttempts:0,quizCorrect:0};
+}
+let data=loadData();
+let tab='card',level='ALL',index=0,search='',flipped=false,playing=false,playTimer=null;
+let quiz=null,quizScore=0,quizCount=0;
+// AI 主題類別：選單顯示繁體中文，傳給 Gemini 的值採用英文描述。
+// 可在此新增常用主題：[要傳給 AI 的英文主題, 中文選單名稱]。
+const TOPIC_CATEGORIES = [
+  {group:'綜合與日常',items:[
+    ['General English','綜合高頻英文'],
+    ['Daily Life','日常生活'],
+    ['Communication & Relationships','溝通與人際關係'],
+    ['Food & Dining','餐飲與美食'],
+    ['Shopping & Services','購物與生活服務'],
+    ['Travel & Transportation','旅遊與交通'],
+    ['Health & Medicine','健康與醫療'],
+    ['Sports & Fitness','運動與健身']
+  ]},
+  {group:'學習與職場',items:[
+    ['Business','商業與職場'],
+    ['Academic','學校與學術'],
+    ['Technology','科技與網路'],
+    ['Science & Engineering','科學與工程'],
+    ['Exams & Certifications','考試與檢定'],
+    ['Finance & Money','金融與理財']
+  ]},
+  {group:'社會與文化',items:[
+    ['Nature & Environment','自然與環境'],
+    ['Society & News','社會與時事'],
+    ['Culture & Entertainment','文化與娛樂']
+  ]}
+];
+let sentence='',feedback=null,modal=null,editId=null,form=DEFAULT_FORM(),genLevel='B2',genTopic='Business',genCustomTopic='',busy=false,apiKey='',aiModel='gemini-3.8-flash',aiFallback=true,lastAiModelUsed=null;
+let toastTimer=null,storageError=false,operationError='',pendingModal=null,composingSearch=false;
+function validIdSet(ids){const valid=new Set(data.words.map(w=>w.id));return [...new Set(Array.isArray(ids)?ids:[])].filter(id=>valid.has(id));}
+function cleanReferences(){data.learnedIds=validIdSet(data.learnedIds);data.bookmarkedIds=validIdSet(data.bookmarkedIds);data.wrongIds=validIdSet(data.wrongIds);}
+cleanReferences();
+function persist(){
+ cleanReferences();
+ try{localStorage.setItem(STORE,JSON.stringify({version:2,exportedAt:new Date().toISOString(),...data}));storageError=false;}
+ catch(e){storageError=true;notify('瀏覽器儲存失敗，請立即匯出備份檔。'+(e?.message||''),true);}
+}
+function filtered(){const q=search.toLocaleLowerCase().trim();return data.words.filter(w=>{
+ if(level==='BOOKMARKED'&&!data.bookmarkedIds.includes(w.id))return false;
+ else if(level==='WRONG'&&!data.wrongIds.includes(w.id))return false;
+ else if(!['ALL','BOOKMARKED','WRONG'].includes(level)&&w.level!==level)return false;
+ return !q||[w.word,w.meaning,w.enDefinition,w.example].some(x=>x.toLocaleLowerCase().includes(q));
+});}
+function clamp(){const n=filtered().length;index=n?Math.max(0,Math.min(index,n-1)):0;}
+function current(){clamp();return filtered()[index]||null;}
+function notify(message,error=false){let old=$('#vm-toast');if(old)old.remove();if(toastTimer)clearTimeout(toastTimer);const n=document.createElement('div');n.id='vm-toast';n.className='toast'+(error?' error':'');n.setAttribute('role','status');n.textContent=message;document.body.appendChild(n);toastTimer=setTimeout(()=>n.remove(),5200);}
+function closeModal(){if(busy)return;modal=null;editId=null;render();}
+function changeTab(value){tab=value;stopPlay();feedback=null;if(value==='quiz')prepareQuiz();render();}
+function changeLevel(value){level=value;index=0;flipped=false;feedback=null;sentence='';quiz=null;quizScore=0;quizCount=0;stopPlay();if(tab==='quiz')prepareQuiz();render();}
+function stopPlay(){playing=false;if(playTimer){clearInterval(playTimer);playTimer=null;}if('speechSynthesis'in window)window.speechSynthesis.cancel();}
+function speak(value){if(!value)return;if(!('speechSynthesis'in window)){notify('目前瀏覽器不支援語音朗讀。',true);return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(value);u.lang='en-US';u.rate=.88;window.speechSynthesis.speak(u);}
+function go(step){const n=filtered().length;if(!n)return;index=(index+step+n)%n;flipped=false;sentence='';feedback=null;prepareQuiz();render();}
+function randomCard(){const n=filtered().length;if(!n)return;const next=n===1?0:(index+1+Math.floor(Math.random()*(n-1)))%n;index=next;flipped=false;sentence='';feedback=null;prepareQuiz();render();}
+function togglePlay(){if(playing){stopPlay();render();return;}if(!current())return;playing=true;flipped=false;render();speak(current().word);playTimer=setInterval(()=>{if(tab!=='card'||!current()){stopPlay();render();return;}if(!flipped){flipped=true;render();}else{go(1);const w=current();if(w)speak(w.word);}},3500);}
+function toggleId(field,id){data[field]=data[field].includes(id)?data[field].filter(x=>x!==id):[...data[field],id];persist();if(field==='bookmarkedIds'&&level==='BOOKMARKED')clamp();render();}
+function getQuizOptions(w){
+ const raw=INITIAL_VOCABULARY.find(x=>x.word.toLowerCase()===w.word.toLowerCase());
+ const known=(Array.isArray(raw?.quizOptions)?raw.quizOptions:[]).filter(x=>safeText(x)&&x!==w.meaning);
+ const alternatives=shuffle([...new Set(shuffle(data.words.filter(x=>x.id!==w.id).map(x=>x.meaning)).concat(known))]);
+ const selected=[w.meaning,...alternatives.filter(x=>x!==w.meaning).slice(0,3)];
+ for(const fallback of ['完全相反的意思','與題目無關','不適用的解釋','以上皆非']){if(selected.length>=4)break;if(!selected.includes(fallback))selected.push(fallback);}
+ return shuffle(selected).slice(0,4);
+}
+function prepareQuiz(){const w=current();quiz=w?{id:w.id,options:getQuizOptions(w),answered:false,selected:null}:null;}
+function answerQuiz(idx){const w=current();if(!w||!quiz||quiz.answered)return;quiz.answered=true;quiz.selected=idx;quizCount++;data.quizAttempts++;
+ if(quiz.options[idx]===w.meaning){quizScore+=10;data.quizCorrect++;data.wrongIds=data.wrongIds.filter(id=>id!==w.id);data.learnedIds=[...new Set([...data.learnedIds,w.id])];}
+ else{data.wrongIds=[...new Set([...data.wrongIds,w.id])];}
+ persist();render();}
+function downloadJSON(payload,filename){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);}
+function exportData(){downloadJSON({format:'VocabMasterDesktop',version:2,exportedAt:new Date().toISOString(),...data},'VocabMaster_backup_'+new Date().toISOString().slice(0,10)+'.json');notify('已下載完整備份，包含單字、收藏、掌握紀錄與錯題。');}
+function openImport(){const input=$('#import-file');input.value='';input.click();}
+async function importData(file){if(!file)return;try{const parsed=JSON.parse(await file.text());const list=Array.isArray(parsed)?parsed:parsed.words;if(!Array.isArray(list))throw Error('不支援的備份格式。');const newWords=sanitizeWords(list);if(!newWords.length)throw Error('備份檔中沒有有效的單字。');if(!confirm('即將使用匯入資料取代目前的單字庫與學習進度。建議先執行「完整備份」。確定繼續嗎？'))return;
+ data={words:newWords,learnedIds:Array.isArray(parsed.learnedIds)?parsed.learnedIds:[],bookmarkedIds:Array.isArray(parsed.bookmarkedIds)?parsed.bookmarkedIds:[],wrongIds:Array.isArray(parsed.wrongIds)?parsed.wrongIds:[],quizAttempts:Number(parsed.quizAttempts)||0,quizCorrect:Number(parsed.quizCorrect)||0};cleanReferences();index=0;search='';level='ALL';quiz=null;stopPlay();persist();render();notify('匯入成功：'+newWords.length+' 個單字。'+(Array.isArray(parsed)?'舊版備份不含收藏及掌握紀錄。':''));}catch(e){notify('匯入失敗：'+e.message,true);}}
+function resetWords(){if(!confirm('確定要恢復內建 13 個單字？目前所有自訂單字及學習進度都會被刪除。建議先備份。'))return;data={words:sanitizeWords(INITIAL_VOCABULARY),learnedIds:[],bookmarkedIds:[],wrongIds:[],quizAttempts:0,quizCorrect:0};index=0;level='ALL';search='';persist();render();notify('已恢復內建單字。');}
+function openEditor(id){const w=data.words.find(w=>w.id===id);editId=w?.id||null;form=w?{...w}:DEFAULT_FORM();modal='editor';stopPlay();render();}
+function getEditorForm(){const fd=new FormData($('#word-form'));const o=DEFAULT_FORM();for(const k of Object.keys(o))o[k]=safeText(fd.get(k));o.pos=o.pos||'noun';return o;}
+function saveWord(){const entered=getEditorForm();const word=normalizeWord({...entered,id:editId||uid()});if(!word){notify('請填寫英文單字及中文意思。',true);return;}const dupe=data.words.find(x=>x.id!==editId&&x.word.toLocaleLowerCase()===word.word.toLocaleLowerCase());if(dupe){notify('單字「'+word.word+'」已存在，請改用編輯功能。',true);return;}
+ if(editId){data.words=data.words.map(x=>x.id===editId?word:x);notify('單字已更新。');}
+ else{data.words.unshift(word);index=0;level='ALL';search='';notify('已新增單字：'+word.word);}
+ persist();modal=null;editId=null;render();}
+function deleteWord(id){const w=data.words.find(x=>x.id===id);if(!w||!confirm('確定刪除「'+w.word+'」嗎？'))return;data.words=data.words.filter(x=>x.id!==id);persist();clamp();modal=null;render();notify('單字已刪除。');}
+function buildCard(w){if(!w)return '<div class="panel empty">目前沒有符合條件的單字。<br>可以切換分類或清除搜尋條件。</div>';
+ const bookmark=data.bookmarkedIds.includes(w.id),learned=data.learnedIds.includes(w.id);
+ return `<div class="status">第 ${index+1} / ${filtered().length} 個單字 · ${esc(w.level)} <span class="muted">（點卡片翻面）</span></div>
+ <div class="vcardwrap" data-action="flip" role="button" tabindex="0" aria-label="翻轉單字卡"><div class="vcard ${flipped?'flip':''}">
+ <section class="face front"><div class="cardhead"><span class="pill">CEFR ${esc(w.level)}</span><div class="flex"><button class="iconbtn ${bookmark?'active yellow':''}" data-action="bookmark" data-id="${esc(w.id)}" title="收藏">${bookmark?'★':'☆'}</button><button class="iconbtn ${learned?'active green':''}" data-action="learned" data-id="${esc(w.id)}" title="已掌握">${learned?'✓':'○'}</button></div></div>
+ <div class="wordmid"><div class="headword">${esc(w.word)}</div><div class="flex"><span class="ipa">${esc(w.ipa)}</span><span class="pill">${esc(w.pos)}</span><button class="iconbtn" data-action="speak" data-text="word" title="朗讀單字">🔊</button></div></div><div class="hint">點擊卡片翻面查看中文解釋、用法與例句</div></section>
+ <section class="face back"><div class="cardhead"><div class="backtitle">${esc(w.meaning)}</div><button class="iconbtn" data-action="speak" data-text="word" title="朗讀單字">🔊</button></div>
+ ${w.enDefinition?`<div class="detailgroup"><label>英英釋義</label><p>${esc(w.enDefinition)}</p></div>`:''}
+ ${w.forms?`<div class="detailgroup"><label>詞型變化</label><p>${esc(w.forms)}</p></div>`:''}
+ ${w.usagePattern?`<div class="detailgroup"><label>常見搭配與用法</label><p>${esc(w.usagePattern)}</p></div>`:''}
+ ${w.example?`<div class="detailgroup translation"><label>實用例句 <button class="iconbtn small" data-action="speak" data-text="example" title="朗讀例句">🔊</button></label><p>${esc(w.example)}</p><p class="muted smalltext">${esc(w.exampleTranslation)}</p></div>`:''}
+ <div class="hint">${index+1} / ${filtered().length} · 點卡片回到英文正面</div></section></div></div>
+ <div class="cardcontrols"><button class="btn" data-action="prev">← 上一張</button><button class="btn" data-action="autoplay">${playing?'⏸ 暫停朗讀':'▶ 自動播放'}</button><button class="btn" data-action="shuffle">隨機</button><button class="btn primary" data-action="next">下一張 →</button></div><div class="center" style="margin-top:17px"><button class="btn small" data-action="edit-current">✎ 編輯此單字</button></div>`;
+}
+function buildQuiz(w){if(!w)return '<div class="panel empty">目前沒有可測驗的單字。</div>';if(!quiz||quiz.id!==w.id)prepareQuiz();
+ return `<div class="panel"><div class="quizmeta"><span>中文釋義選擇題 · ${esc(w.level)}</span><span>本次得分：<strong style="color:#bdb4ff">${quizScore}</strong> · 已作答 ${quizCount} 題</span></div><div class="quizword">${esc(w.word)}</div><div class="quizopts">${quiz.options.map((opt,i)=>`<button class="option ${quiz.answered&&opt===w.meaning?'correct':''} ${quiz.answered&&quiz.selected===i&&opt!==w.meaning?'incorrect':''}" data-action="quiz-answer" data-index="${i}" ${quiz.answered?'disabled':''}><span class="muted">${String.fromCharCode(65+i)}. </span>${esc(opt)}</button>`).join('')}</div>
+ ${quiz.answered?`<div class="feedback">${quiz.options[quiz.selected]===w.meaning?'<span style="color:#83eac7">✓ 回答正確，已標記為掌握。</span>':'<span style="color:#fecdd3">✕ 回答錯誤，已加入錯題清單。</span>'}<br>正確答案：<strong>${esc(w.meaning)}</strong></div>`:''}
+ <div class="footactions" style="margin-top:19px"><button class="btn" data-action="quiz-reset">重新計分</button><button class="btn primary" data-action="next">下一題 →</button></div></div>`;
+}
+function buildPractice(w){if(!w)return '<div class="panel empty">目前沒有可練習的單字。</div>';
+ return `<div class="panel"><div class="flex between"><div><div class="sub" style="color:#b0a9ff">目標單字</div><h2 style="margin:7px 0 4px">${esc(w.word)} <span class="smalltext muted">${esc(w.pos)}</span></h2><div class="muted">${esc(w.meaning)}</div></div><button class="iconbtn" data-action="speak" data-text="word">🔊</button></div>
+ <div class="space"></div><div class="field" style="margin-top:16px"><label>請使用「${esc(w.word)}」寫一個英文句子</label><textarea id="sentence-input" rows="5" placeholder="例如：I want to use this word in a sentence.">${esc(sentence)}</textarea></div>
+ <div class="footactions"><button class="btn" data-action="next">換一個單字 →</button><button class="btn purple" data-action="analyze" ${busy?'disabled':''}>${busy?'AI 批改中…':'✨ 提交 AI 批改'}</button></div>
+ ${feedback?`<div class="feedback"><div class="flex between"><strong>AI 評分與建議</strong><strong>${esc(feedback.score)} / 10</strong></div><p>${esc(feedback.feedback)}</p>${feedback.correctedSentence?`<p><strong>修正建議：</strong>${esc(feedback.correctedSentence)}</p>`:''}${feedback.improvedSentence?`<p><strong>進階寫法：</strong>${esc(feedback.improvedSentence)}</p>`:''}</div>`:''}
+ <p class="fine" style="margin-top:16px">AI 批改須先按「AI 設定」輸入本次使用的 Gemini API Key；離線時無法使用。</p></div>`;
+}
+function buildStats(){const total=data.words.length,learned=data.learnedIds.length,bookmarked=data.bookmarkedIds.length,pct=total?Math.round(100*learned/total):0;
+ return `<div class="panel"><h2 style="margin:0 0 20px">學習進度統計</h2><div class="statgrid"><div class="stat"><div class="muted">總單字數</div><strong>${total}</strong></div><div class="stat"><div class="muted">已掌握</div><strong style="color:#65e6bd">${learned}</strong></div><div class="stat"><div class="muted">收藏</div><strong style="color:#f9d17c">${bookmarked}</strong></div></div>
+ <div style="margin:25px 0 9px" class="flex between"><strong>學習達成率</strong><span>${pct}%</span></div><div class="progress"><div style="width:${pct}%"></div></div>
+ <div class="sidefact" style="margin-top:27px"><span>累積測驗題數</span><strong>${data.quizAttempts}</strong></div><div class="sidefact"><span>累積答對</span><strong>${data.quizCorrect}</strong></div><div class="sidefact"><span>累積答對率</span><strong>${data.quizAttempts?Math.round(data.quizCorrect/data.quizAttempts*100):0}%</strong></div><div class="sidefact"><span>待複習錯題</span><strong>${data.wrongIds.length}</strong></div>
+ <div class="footactions" style="margin-top:20px"><button class="btn" data-action="review-wrong">複習錯題</button><button class="btn primary" data-action="export">完整備份</button></div></div>`;
+}
+function renderSidebar(){const w=current();return `<aside class="sidebar"><section class="sidecard"><h3 class="sectiontitle">學習工具</h3><div class="sidefact"><span>目前單字</span><strong>${data.words.length}</strong></div><div class="sidefact"><span>已掌握</span><strong style="color:#70e8bd">${data.learnedIds.length}</strong></div><div class="sidefact"><span>收藏</span><strong>${data.bookmarkedIds.length}</strong></div><div class="sidefact"><span>錯題</span><strong style="color:#ffb7c6">${data.wrongIds.length}</strong></div><div class="space"></div><button class="btn" style="width:100%;margin:4px 0" data-action="settings">⚙ AI 設定 <span class="keybadge">${apiKey?'（本次已設定）':'（未設定）'}</span></button><button class="btn" style="width:100%;margin:4px 0" data-action="export">↓ 匯出完整備份</button><button class="btn" style="width:100%;margin:4px 0" data-action="import">↑ 匯入／還原備份</button><div class="fine">新舊版單字資料皆可匯入；建議定期下載 JSON 備份。</div></section>
+ <section class="sidecard"><h3 class="sectiontitle">快速操作</h3><div class="sidefact"><span>翻卡</span><span class="kbd">空白鍵</span></div><div class="sidefact"><span>上一張</span><span class="kbd">←</span></div><div class="sidefact"><span>下一張</span><span class="kbd">→</span></div><div class="space"></div><div class="fine">單字卡、測驗、搜尋與進度統計不需要 AI Key；AI 功能需要網路。</div></section>
+ ${w?`<section class="sidecard"><h3 class="sectiontitle">目前單字管理</h3><p><strong class="break">${esc(w.word)}</strong><br><span class="muted smalltext">${esc(w.meaning)}</span></p><div class="actions"><button class="btn small" data-action="edit-current">編輯</button><button class="btn small warn" data-action="delete-current">刪除</button></div></section>`:''}
+ </aside>`;}
+function renderModal(){if(!modal)return '';
+ if(modal==='settings')return `<div class="modalback" data-backdrop="true"><div class="modal" role="dialog" aria-modal="true" aria-label="AI 設定"><div class="modalhead"><h2>Gemini AI 設定</h2><button class="iconbtn" data-action="close-modal">✕</button></div><div class="notice warning">${apiKey?'本次頁面已設定金鑰。':'目前沒有啟用 AI 金鑰。'}<br>為避免洩漏，PWA 不內建 API Key，也不將金鑰存進 localStorage 或單字備份。重新載入、關閉 App 後需要再輸入。金鑰會在本裝置的瀏覽器程式中用來直接呼叫 Google API；適合個人測試，不適合多人或公開商用，正式服務應使用有驗證的後端代理。</div>
+ <div class="field" style="margin-top:17px"><label>Gemini API Key（本次開啟有效）</label><input type="password" id="apikey-input" autocomplete="off" placeholder="${apiKey?'已設定金鑰；留空會沿用本次金鑰':'在此輸入 Google AI Studio 金鑰'}" value=""><div class="fine">基於安全，金鑰不會回填在輸入框中。留空按「確認設定」會沿用本次已輸入的金鑰。</div></div><div class="field"><label>AI 模型（依你的 API Key 可用範圍選擇）</label><select id="model-input">${[['gemini-3.8-flash','Gemini 3.8 Flash（建議預設）'],['gemini-3.7-flash','Gemini 3.7 Flash'],['gemini-3.6-flash','Gemini 3.6 Flash'],['gemini-3.5-flash-lite','Gemini 3.5 Flash-Lite（輕量）'],['gemini-3.5-flash','Gemini 3.5 Flash']].map(([id,label])=>`<option value="${id}" ${aiModel===id?'selected':''}>${label}</option>`).join('')}</select></div><div class="field"><label style="display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px"><input type="checkbox" id="fallback-input" ${aiFallback?'checked':''} style="width:17px;height:17px;accent-color:#8277e8"> 503／404 時自動重試或切換備援模型</label><div class="fine">預設開啟：先對所選模型有限次重試，仍無法使用時改試 Flash-Lite／Flash。成功時會顯示實際使用的模型；不會改動你的預設選擇。每次重試都算一次 API 呼叫。</div></div><div class="notice">Google API 503 代表服務暫時過載，會有限次重試；404 代表模型可能不對目前金鑰開放，會嘗試備援。遇到 429（頻率或免費額度限制）、403（權限）時不會自動重試。測試連線會發出一次或多次少量文字 API 請求。</div><p class="fine">在 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a> 取得 API Key。免費額度與可用模型依 Google 實際公告及你的專案方案而定。</p><div class="footactions"><button class="btn warn" data-action="forget-key">本次停用金鑰</button><div class="actions"><button class="btn" data-action="test-ai">測試連線</button><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-settings">確認設定</button></div></div></div></div>`;
+ if(modal==='generate')return `<div class="modalback" data-backdrop="true"><div class="modal" role="dialog" aria-modal="true" aria-label="AI 生成單字"><div class="modalhead"><h2>AI 生成 20 個主題單字</h2><button class="iconbtn" data-action="close-modal">✕</button></div><div class="row2"><div class="field"><label for="generate-level">CEFR 等級</label><select id="generate-level">${['B1','B2','C1'].map(x=>`<option ${x===genLevel?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label for="generate-topic">主題類別</label><select id="generate-topic">${TOPIC_CATEGORIES.map(group=>`<optgroup label="${esc(group.group)}">${group.items.map(([value,label])=>`<option value="${esc(value)}" ${genTopic===value?'selected':''}>${esc(label)}</option>`).join('')}</optgroup>`).join('')}<option value="__custom__" ${genTopic==='__custom__'?'selected':''}>自訂主題（自行輸入）</option></select></div></div><div id="generate-custom-group" class="field ${genTopic==='__custom__'?'':'hidden'}"><label for="generate-custom-topic">自訂主題</label><input id="generate-custom-topic" type="text" maxlength="120" value="${esc(genCustomTopic)}" placeholder="例如：半導體、面試英文、攝影"><div class="fine">找不到想要的類別時，可以自行輸入中文或英文主題。</div></div><div class="notice">將產生約 20 個所選主題的實用單字，並自動略過單字庫中已存在的英文單字。AI 可能需要人工確認音標及解釋是否正確。</div><div class="footactions" style="margin-top:20px"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="generate" ${busy?'disabled':''}>${busy?'產生中…':'開始生成'}</button></div></div></div>`;
+ if(modal==='editor')return `<div class="modalback" data-backdrop="true"><div class="modal" role="dialog" aria-modal="true" aria-label="單字編輯"><div class="modalhead"><h2>${editId?'編輯單字':'新增英文單字'}</h2><button class="iconbtn" data-action="close-modal">✕</button></div><form id="word-form"><div class="row2"><div class="field"><label>英文單字 *</label><input name="word" type="text" required value="${esc(form.word)}" placeholder="e.g. Resilient"></div><div class="field"><label>中文意思 *</label><input name="meaning" type="text" required value="${esc(form.meaning)}" placeholder="e.g. 有韌性的"></div></div><div class="row3"><div class="field"><label>音標</label><input name="ipa" value="${esc(form.ipa)}"></div><div class="field"><label>詞性</label><select name="pos">${['noun','verb','adjective','adverb','phrase','other'].map(x=>`<option value="${x}" ${form.pos===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>等級</label><select name="level">${['B1','B2','C1'].map(x=>`<option ${form.level===x?'selected':''}>${x}</option>`).join('')}</select></div></div><div class="field"><label>英文定義</label><textarea name="enDefinition" rows="2">${esc(form.enDefinition)}</textarea></div><div class="row2"><div class="field"><label>詞型變化</label><input name="forms" value="${esc(form.forms)}"></div><div class="field"><label>搭配用法</label><input name="usagePattern" value="${esc(form.usagePattern)}"></div></div><div class="field"><label>英文例句</label><textarea name="example" rows="2">${esc(form.example)}</textarea></div><div class="field"><label>例句中文翻譯</label><textarea name="exampleTranslation" rows="2">${esc(form.exampleTranslation)}</textarea></div><div class="footactions"><button type="button" class="btn purple" data-action="auto-fill" ${busy?'disabled':''}>${busy?'AI 補全中…':'✨ AI 自動填寫'}</button><div class="actions"><button type="button" class="btn" data-action="close-modal">取消</button><button class="btn primary" type="submit">${editId?'儲存修改':'新增單字'}</button></div></div></form></div></div>`;
+ return '';
+}
+function render(){clamp();const w=current();document.getElementById('app').innerHTML=`<header><div class="top"><div class="brand"><div class="brandlogo">▣</div><div><strong>VocabMaster Pro</strong><div class="sub">PWA · 已儲存 ${data.words.length} 個單字 ${storageError?'· ⚠ 本次儲存失敗':''}</div></div></div><nav class="tabs" aria-label="主要功能">${[['card','單字卡'],['practice','AI 造句'],['quiz','測驗'],['stats','進度']].map(([id,name])=>`<button class="${tab===id?'active':''}" data-action="tab" data-value="${id}">${name}</button>`).join('')}</nav></div></header>
+ <main class="container"><div class="toolbar"><div class="filters">${[['ALL',`全部 (${data.words.length})`],['B1','B1'],['B2','B2'],['C1','C1'],['BOOKMARKED',`★ 收藏 (${data.bookmarkedIds.length})`],['WRONG',`錯題 (${data.wrongIds.length})`]].map(([id,name])=>`<button class="chip ${level===id?'active':''}" data-action="level" data-value="${id}">${name}</button>`).join('')}</div><input id="search" class="search" type="search" placeholder="搜尋英文、中文或例句" aria-label="搜尋單字" value="${esc(search)}"></div>
+ <div class="toolbar"><div class="actions"><button class="btn green" data-action="bulk" ${busy?'disabled':''}>＋ AI 擴充 30 個</button><button class="btn purple" data-action="generate-modal">✨ AI 生成 20 個</button><button class="btn primary" data-action="add">＋ 手動新增</button></div><div class="actions"><button class="btn" data-action="export">↓ 完整備份</button><button class="btn" data-action="import">↑ 匯入</button><button class="btn" data-action="settings">⚙ AI 設定</button></div></div>
+ <div class="layout"><section class="mainpanel">${tab==='card'?buildCard(w):tab==='quiz'?buildQuiz(w):tab==='practice'?buildPractice(w):buildStats()}</section>${renderSidebar()}</div></main>
+ <footer>VocabMaster Pro · iPhone／電腦皆可使用 · 資料儲存在目前裝置 · 建議定期匯出 JSON 備份</footer>${renderModal()}<input type="file" id="import-file" accept=".json,application/json" class="hidden">`;
+}
+function ensureKey(){if(apiKey.trim())return true;pendingModal=modal==='settings'?null:modal;notify('尚未設定金鑰：請在 AI 設定中輸入本次要使用的 Gemini API Key。',true);modal='settings';render();return false;}
+// Google 503 = overloaded; retry with short, bounded exponential backoff.
+// 404 on the selected model can be resolved by trying a currently listed model.
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function callGemini(system,user){
+ if(!apiKey.trim())throw Error('尚未設定 Gemini API Key。');
+ lastAiModelUsed=null;
+ const preferred=aiModel;
+ const candidates=[preferred];
+ if(aiFallback)for(const id of ['gemini-3.5-flash-lite','gemini-3.6-flash'])if(!candidates.includes(id))candidates.push(id);
+ let finalError=null;
+ for(let route=0;route<candidates.length;route++){
+  const model=candidates[route];
+  const allowedAttempts=route===0?2:route===1?2:1;
+  for(let attempt=0;attempt<allowedAttempts;attempt++){
+   const controller=new AbortController();
+   const timer=setTimeout(()=>controller.abort(),35000);
+   try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+     method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey.trim()},
+     body:JSON.stringify({contents:[{parts:[{text:user}]}],systemInstruction:{parts:[{text:system}]},generationConfig:{responseMimeType:'application/json'}}),
+     signal:controller.signal
+    });
+    const json=await r.json().catch(()=>({}));
+    if(!r.ok){
+     const detail=json?.error?.message||'未知 API 錯誤';
+     if(r.status===503||r.status===500||r.status===502||r.status===504){
+      finalError=Error(`Google API ${r.status}：伺服器目前忙碌。${detail}`);
+      if(attempt<allowedAttempts-1){notify(`${model} 暫時繁忙，正在稍候重試（${attempt+1}/${allowedAttempts-1}）…`);await delay(950*Math.pow(2,attempt)+Math.floor(Math.random()*300));continue;}
+      if(route<candidates.length-1){notify(`${model} 暫時繁忙，正在改試備援模型…`);break;}
+      throw Error('Google API 503：Google 服務目前過載；'+(aiFallback?'已重試並嘗試備援模型':'已自動重試')+'，仍未成功。請過幾分鐘再試，或手動選擇 Gemini 3.5 Flash-Lite。');
+     }
+     if(r.status===404){
+      finalError=Error(`Google API 404：${model} 對此帳號不可用。${detail}`);
+      if(route<candidates.length-1){notify(`${model} 目前不可用，正在改試備援模型…`);break;}
+      throw Error('Google API 404：'+(aiFallback?'所選模型及備援模型皆不可用。':'所選模型不可用。')+'請到 AI 設定選擇此帳號有權使用的模型。');
+     }
+     if(r.status===429)throw Error(`Google API 429：已達請求頻率或使用額度限制，不會自動重試。請稍後再試或查看 Google AI Studio 額度。${detail}`);
+     if(r.status===403||r.status===401)throw Error(`Google API ${r.status}：金鑰或專案權限不足，請確認 Google AI Studio 設定。${detail}`);
+     throw Error(`Google API ${r.status}：${detail}`);
+    }
+    const message=json?.candidates?.[0]?.content?.parts?.filter(p=>typeof p.text==='string').map(p=>p.text).join('');
+    if(!message)throw Error('AI 未回傳文字，可能被內容安全機制阻擋。');
+    let result;
+    try{result=JSON.parse(message.replace(/^```(?:json)?\s*|\s*```$/g,''));}
+    catch{throw Error('AI 回傳的內容不是有效 JSON，請重試。');}
+    lastAiModelUsed=model;
+    return result;
+   }catch(e){
+    if(e.name==='AbortError')throw Error(`AI 請求逾時（${model}），請確認網路後重試。`);
+    if(e.name==='TypeError')throw Error('無法連線 Gemini API。請檢查網路、API Key 或瀏覽器跨來源限制。');
+    throw e;
+   }finally{clearTimeout(timer);}
+  }
+ }
+ throw finalError||Error('沒有可用的 Gemini 模型。');
+}
+function usedModelLabel(){return lastAiModelUsed&&lastAiModelUsed!==aiModel?`（備援模型：${lastAiModelUsed}）`:'';}
+
+async function testAIConnection(){
+ const keyInput=$('#apikey-input'),modelInput=$('#model-input');
+ if(!keyInput||!modelInput)return;
+ if(keyInput.value.trim())apiKey=keyInput.value.trim();aiModel=modelInput.value;aiFallback=Boolean($('#fallback-input')?.checked);
+ if(!apiKey){notify('沒有可使用的 API Key，請在此暫時輸入金鑰。',true);return;}
+ if(busy)return;
+ busy=true;const button=$('[data-action="test-ai"]');if(button){button.disabled=true;button.textContent='測試中…';}
+ try{
+   const result=await callGemini('Return a valid JSON object with exactly one key named ok and value true.','Connection test. Reply {"ok":true}.');
+   if(result?.ok!==true)throw Error('模型有回應，但格式不符合預期；請再試一次。');
+   notify(`連線成功：${lastAiModelUsed}。${usedModelLabel()?'已自動切換備援模型。':'現在可以使用 AI 造句、單字補全與批量生成。'}`);
+ }catch(e){notify('測試失敗：'+e.message,true);}
+ finally{busy=false;const b=$('[data-action="test-ai"]');if(b){b.disabled=false;b.textContent='測試連線';}}
+}
+function addGenerated(rows){if(!Array.isArray(rows))throw Error('AI 回應格式不是單字清單。');let count=0;const known=new Set(data.words.map(x=>x.word.toLocaleLowerCase()));const incoming=[];for(const row of rows){const w=normalizeWord({...row,id:uid()});if(!w)continue;const k=w.word.toLocaleLowerCase();if(known.has(k))continue;known.add(k);incoming.push(w);count++;}if(count){data.words=[...incoming,...data.words];index=0;level='ALL';search='';persist();}return count;}
+async function bulkGenerate(){if(!ensureKey())return;busy=true;render();try{const result=await callGemini('You are an expert English teacher. Reply ONLY with a JSON array. Each item must contain word, ipa, pos, level (B1/B2/C1), meaning (Traditional Chinese), enDefinition, forms, usagePattern, example, exampleTranslation. Exactly 30 practical distinct B1-C1 English words. Avoid inflected duplicates.','Generate 30 diverse practical English vocabulary entries. Avoid these already-known words: '+data.words.slice(0,250).map(x=>x.word).join(', '));const n=addGenerated(result);notify(`AI 產生完成：實際新增 ${n} 個，已過濾重複單字。${usedModelLabel()}`);}
+ catch(e){notify('AI 擴充失敗：'+e.message,true);}finally{busy=false;render();}}
+async function topicGenerate(){genLevel=$('#generate-level').value;genTopic=$('#generate-topic').value;genCustomTopic=$('#generate-custom-topic')?.value||'';const topic=genTopic==='__custom__'?genCustomTopic.trim():genTopic;if(!topic){notify('請先輸入自訂主題。',true);$('#generate-custom-topic')?.focus();return;}if(!ensureKey())return;busy=true;render();try{const result=await callGemini('You are an expert CEFR vocabulary instructor. Reply ONLY with a JSON array of 20 objects, each containing word, ipa, pos, level, meaning (Traditional Chinese), enDefinition, forms, usagePattern, example, exampleTranslation. No duplicate words.','Generate 20 distinct CEFR '+genLevel+' practical English words about '+topic+'. Avoid: '+data.words.slice(0,250).map(x=>x.word).join(', '));const n=addGenerated(result);modal=null;notify(`已新增 ${n} 個主題單字（重複者略過）。${usedModelLabel()}`);}
+ catch(e){notify('AI 生成失敗：'+e.message,true);}finally{busy=false;render();}}
+async function analyze(){if(!ensureKey())return;const w=current(),input=$('#sentence-input');sentence=input?.value.trim()||'';if(!w||!sentence){notify('請先輸入一個英文句子。',true);return;}busy=true;feedback=null;const wordId=w.id;render();try{const result=await callGemini(`You are a careful English tutor evaluating a sentence with the target word ${w.word}. Reply ONLY JSON object with score (integer 1-10), feedback (Traditional Chinese), correctedSentence, improvedSentence. Give constructive and concrete feedback.`,`Target word: ${w.word}\nUser sentence: ${sentence}`);if(current()?.id!==wordId)return;feedback={score:Number(result.score)||0,feedback:safeText(result.feedback),correctedSentence:safeText(result.correctedSentence),improvedSentence:safeText(result.improvedSentence)};if(usedModelLabel())notify('AI 批改完成'+usedModelLabel());}
+ catch(e){notify('AI 批改失敗：'+e.message,true);}finally{busy=false;render();}}
+async function autoFill(){form=getEditorForm();if(!ensureKey())return;const f=form;if(!f.word){notify('請先填入英文單字。',true);return;}form=f;busy=true;render();try{const result=await callGemini('You are an English dictionary editor. Reply ONLY with one JSON object containing ipa, pos, level (B1/B2/C1), meaning (Traditional Chinese), enDefinition, forms, usagePattern, example, exampleTranslation. Do not include extra keys.','Supply accurate dictionary details for English word: '+f.word);form={...form,...Object.fromEntries(Object.keys(DEFAULT_FORM()).filter(k=>k!=='word').map(k=>[k,safeText(result[k]||form[k])]))};notify('AI 已補上單字資料，請檢查後儲存。'+usedModelLabel());}
+ catch(e){notify('AI 自動填寫失敗：'+e.message,true);}finally{busy=false;render();}}
+// All UI actions are delegated from the document to survive re-renders.
+document.addEventListener('click',e=>{
+ const btn=e.target.closest('[data-action]');if(!btn){if(e.target.hasAttribute('data-backdrop'))closeModal();return;}
+ const action=btn.dataset.action;
+ if(action!=='flip')e.stopPropagation();
+ switch(action){
+ case 'tab':changeTab(btn.dataset.value);break;
+ case 'level':changeLevel(btn.dataset.value);break;
+ case 'flip':flipped=!flipped;render();break;
+ case 'bookmark':toggleId('bookmarkedIds',btn.dataset.id);break;
+ case 'learned':toggleId('learnedIds',btn.dataset.id);break;
+ case 'speak':{const w=current();if(w)speak(btn.dataset.text==='example'?w.example:w.word);break;}
+ case 'prev':go(-1);break;
+ case 'next':go(1);break;
+ case 'shuffle':randomCard();break;
+ case 'autoplay':togglePlay();break;
+ case 'quiz-answer':answerQuiz(Number(btn.dataset.index));break;
+ case 'quiz-reset':quizScore=0;quizCount=0;prepareQuiz();render();break;
+ case 'review-wrong':changeLevel('WRONG');changeTab('quiz');break;
+ case 'export':exportData();break;
+ case 'import':openImport();break;
+ case 'add':openEditor(null);break;
+ case 'edit-current':{const w=current();if(w)openEditor(w.id);break;}
+ case 'delete-current':{const w=current();if(w)deleteWord(w.id);break;}
+ case 'reset-words':resetWords();break;
+ case 'settings':modal='settings';stopPlay();render();break;
+ case 'generate-modal':modal='generate';stopPlay();render();break;
+ case 'close-modal':closeModal();break;
+ case 'test-ai':testAIConnection();break;
+ case 'save-settings':{const input=$('#apikey-input').value.trim();if(input)apiKey=input;aiModel=$('#model-input').value;aiFallback=Boolean($('#fallback-input')?.checked);modal=pendingModal||null;pendingModal=null;render();notify(apiKey?'已啟用本次頁面的金鑰。':'未設定 AI Key，基本功能仍可使用。');break;}
+ case 'forget-key':apiKey='';modal=null;render();notify('已清除本次頁面的金鑰。');break;
+ case 'bulk':bulkGenerate();break;
+ case 'generate':topicGenerate();break;
+ case 'auto-fill':autoFill();break;
+ case 'analyze':analyze();break;
+ }
+});
+document.addEventListener('submit',e=>{if(e.target.id==='word-form'){e.preventDefault();saveWord();}});
+document.addEventListener('input',e=>{if(e.target.id==='search'){search=e.target.value;if(composingSearch)return;const start=e.target.selectionStart,end=e.target.selectionEnd;render();const field=$('#search');field?.focus();try{field?.setSelectionRange(start,end);}catch{}}else if(e.target.id==='sentence-input'){sentence=e.target.value;}else if(e.target.id==='generate-custom-topic'){genCustomTopic=e.target.value;}});
+document.addEventListener('compositionstart',e=>{if(e.target.id==='search')composingSearch=true;});
+document.addEventListener('compositionend',e=>{if(e.target.id==='search'){composingSearch=false;search=e.target.value;render();$('#search')?.focus();}});
+document.addEventListener('change',e=>{if(e.target.id==='import-file')importData(e.target.files[0]);else if(e.target.id==='generate-topic'){genTopic=e.target.value;const custom=genTopic==='__custom__';$('#generate-custom-group')?.classList.toggle('hidden',!custom);if(custom)$('#generate-custom-topic')?.focus();}else if(e.target.id==='generate-level')genLevel=e.target.value;});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&modal){closeModal();return;}
+ const inField=e.target.matches('input,textarea,select,[contenteditable]');if(modal||inField||tab!=='card')return;
+ if(e.key==='ArrowRight'){e.preventDefault();go(1);}else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}else if(e.code==='Space'){e.preventDefault();flipped=!flipped;render();}
+});
+render();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err =>
+      console.warn('Service Worker 註冊失敗：', err));
+  });
+}
+</script>
+</body>
+</html>
